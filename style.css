@@ -1,0 +1,89 @@
+/* Grundlegende Styles für die ganze Seite (optional, aber gut) */
+body {
+    font-family: sans-serif; /* Eine einfache Schriftart */
+    padding: 20px; /* Etwas Abstand zum Fensterrand */
+    background-color: #f4f4f4; /* Ein heller Hintergrund */
+}
+
+h1 {
+    text-align: center; /* Überschrift zentrieren */
+}
+
+/* Container für das Spielbrett - WICHTIG für das Raster-Layout */
+#spielbrett-container {
+    display: grid; /* Aktiviert das CSS Grid Layout */
+    grid-template-columns: repeat(11, 60px); /* 11 Spalten, jede 60px breit */
+    gap: 5px; /* 5px Abstand zwischen den Feldern */
+    max-width: calc(11 * 60px + 10 * 5px); /* Max. Breite berechnen (11 Felder + 10 Lücken) */
+    margin: 20px auto; /* Oben/unten 20px Abstand, links/rechts automatisch zentriert */
+    padding: 5px; /* Kleiner Innenabstand für den Container selbst */
+    background-color: #ccc; /* Leichter grauer Hintergrund für den Container */
+    border: 1px solid #999; /* Rand für den Container */
+}
+
+/* Allgemeines Styling für JEDES Feld */
+.spielbrett-feld {
+    width: 60px; /* Breite des Feldes */
+    height: 60px; /* Höhe des Feldes */
+    background-color: white; /* Weißer Hintergrund */
+    border: 1px solid black; /* Standardmäßig schwarzer Rand */
+    box-sizing: border-box; /* Sorgt dafür, dass Rand zur Größe zählt */
+
+    /* Inhalt zentrieren (horizontal und vertikal) */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Text-Styling */
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center; /* Zusätzliche Textzentrierung */
+}
+
+/* Spezielles Styling für das Start-Feld */
+.start-feld {
+    border: 2px solid red; /* Dickerer, roter Rand */
+    color: red; /* Textfarbe auch rot (optional) */
+}
+
+/* Spezielles Styling für Ereignis-Felder */
+.ereignis-feld {
+    border: 2px solid blue; /* Dickerer, blauer Rand */
+    /* Spezielle Formatierung für "?" und kleine Zahl */
+    flex-direction: column; /* Damit Nummer unter Fragezeichen kommt */
+    line-height: 1.1; /* Zeilenhöhe anpassen */
+    font-size: 24px; /* Größeres Fragezeichen */
+}
+
+/* Styling für die kleine Nummer im Ereignisfeld */
+.ereignis-feld .feld-nummer {
+    font-size: 10px; /* Kleinere Schriftgröße */
+    font-weight: normal; /* Normale Schriftstärke */
+    margin-top: -2px; /* Etwas nach oben rücken */
+    color: #333; /* Dunkelgraue Farbe */
+}
+
+
+/* Spezielles Styling für das Ziel-Feld (100) */
+.ziel-feld {
+    border: 2px solid red; /* Dickerer, roter Rand */
+    color: red; /* Textfarbe auch rot (optional) */
+    /* Erbt jetzt automatisch Größe, Ausrichtung etc. von .spielbrett-feld */
+}
+
+/* Styling für den Auswahlbereich (optional) */
+div > label {
+    margin-right: 5px;
+}
+div > select, div > button {
+    padding: 5px;
+    margin-right: 10px;
+}
+
+/* Styling für das Feld des aktiven Spielers */
+.active-player {
+    background-color: yellow !important; /* Wichtige Hervorhebungsfarbe */
+    transform: scale(1.1); /* Feld leicht vergrößern */
+    box-shadow: 0 0 10px yellow; /* Leuchteffekt (optional) */
+    transition: transform 0.2s ease-in-out; /* Sanfter Übergang */
+}
