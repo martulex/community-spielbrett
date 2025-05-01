@@ -43,31 +43,19 @@ h1 {
 /* Spezielles Styling für das Start-Feld */
 .start-feld {
     border: 2px solid red; /* Dickerer, roter Rand */
-    color: red; /* Textfarbe auch rot (optional) */
 }
 
 /* Spezielles Styling für Ereignis-Felder */
 .ereignis-feld {
-    border: 2px solid blue; /* Dickerer, blauer Rand */
-    /* Spezielle Formatierung für "?" und kleine Zahl */
-    flex-direction: column; /* Damit Nummer unter Fragezeichen kommt */
-    line-height: 1.1; /* Zeilenhöhe anpassen */
-    font-size: 24px; /* Größeres Fragezeichen */
+    border: 2px solid blue; /* Blauer Rand bleibt */
+    font-size: 15px;       /* Etwas größere Schrift für das "?", kannst du anpassen */
+    /* flex-direction und line-height entfernt */
+    /* Die Zentrierung übernimmt display:flex von .spielbrett-feld */
 }
-
-/* Styling für die kleine Nummer im Ereignisfeld */
-.ereignis-feld .feld-nummer {
-    font-size: 10px; /* Kleinere Schriftgröße */
-    font-weight: normal; /* Normale Schriftstärke */
-    margin-top: -2px; /* Etwas nach oben rücken */
-    color: #333; /* Dunkelgraue Farbe */
-}
-
 
 /* Spezielles Styling für das Ziel-Feld (100) */
 .ziel-feld {
     border: 2px solid red; /* Dickerer, roter Rand */
-    color: red; /* Textfarbe auch rot (optional) */
     /* Erbt jetzt automatisch Größe, Ausrichtung etc. von .spielbrett-feld */
 }
 
@@ -83,7 +71,103 @@ div > select, div > button {
 /* Styling für das Feld des aktiven Spielers */
 .active-player {
     background-color: yellow !important; /* Wichtige Hervorhebungsfarbe */
-    transform: scale(1.1); /* Feld leicht vergrößern */
+    transform: scale(1.05); /* Feld leicht vergrößern */
     box-shadow: 0 0 10px yellow; /* Leuchteffekt (optional) */
     transition: transform 0.2s ease-in-out; /* Sanfter Übergang */
 }
+
+/* ============================ */
+/* Responsive Design Anpassungen*/
+/* ============================ */
+
+/* Styles für Bildschirme, die 768px breit oder schmaler sind */
+@media (max-width: 768px) {
+
+    body {
+        padding: 10px; /* Weniger Abstand am Rand auf kleinen Screens */
+    }
+
+    h1 {
+        font-size: 24px; /* Kleinere Überschrift */
+    }
+
+    /* Spielbrett-Container anpassen */
+    #spielbrett-container {
+        display: grid; 
+        /* NEU: Flexible Spalten, die sich den Platz teilen */
+        grid-template-columns: repeat(6, 1fr); 
+        gap: 3px; 
+        /* NEU: Volle Breite nutzen, statt max-width und margin:auto */
+        width: 100%; 
+        box-sizing: border-box; /* Wichtig bei width: 100% + padding/border */
+        margin: 15px 0; /* Nur noch oben/unten Abstand, kein auto mehr */
+        padding: 3px; 
+        background-color: #ccc; 
+        border: 1px solid #999; 
+        /* max-width und margin: auto entfernt */
+    }
+
+      /* Allgemeine Feldgröße anpassen */
+      .spielbrett-feld {
+        /* NEU: Breite ergibt sich aus flexibler Spalte (1fr) */
+        /* width: 35px; entfernt */ 
+        /* NEU: Höhe soll sich an Breite anpassen -> Quadrat */
+        height: auto; 
+        aspect-ratio: 1 / 1; /* Sorgt für quadratische Felder */
+
+        background-color: white; 
+        border: 1px solid black; 
+        box-sizing: border-box; 
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 15px; /* Ggf. anpassen, da Feldgröße jetzt variabel ist */
+        font-weight: bold;
+        text-align: center; 
+        line-height: 1; 
+    }
+
+    /* Spezielles Styling für das Start-Feld */
+    .start-feld {
+    border: 2px solid red;
+    font-size: 15px; /* Dickerer, roter Rand */
+}
+
+    /* Ereignisfeld-Inhalt anpassen */
+    .ereignis-feld {
+        border: 2px solid blue;
+        font-size: 15px; /* Kleineres Fragezeichen */
+        line-height: 1;
+    }
+
+    /* Ziel-Feld (100) Schriftgröße anpassen */
+    /* Es erbt die Größe von .spielbrett-feld, nur Schrift muss angepasst werden */
+    .ziel-feld {
+         border: 2px solid red;
+         font-size: 15px; /* Kleinere Schrift für die 100 */
+         /* Roter Rand bleibt von der vorherigen Regel erhalten */
+    }
+
+    /* Steuerungselemente (Dropdown, Button) untereinander anordnen */
+    .controls-container { /* Wir brauchen diese Klasse im HTML! */
+        display: flex;
+        flex-direction: column; /* Elemente untereinander */
+        align-items: flex-start; /* Links ausrichten */
+        gap: 8px; /* Kleiner Abstand zwischen Label, Select, Button */
+    }
+
+    .controls-container label {
+         margin-bottom: -2px; /* Ggf. Abstand anpassen */
+    }
+
+    .controls-container select, 
+    .controls-container button {
+        width: 90%; /* Volle Breite nutzen (fast) */
+        max-width: 300px; /* Aber nicht zu breit auf Tablets */
+        margin-right: 0; /* Rechten Abstand aufheben */
+        padding: 8px; /* Etwas mehr Klickfläche */
+    }
+
+} /* Ende der Media Query für max-width: 768px */

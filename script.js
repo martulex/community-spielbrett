@@ -31,7 +31,7 @@ function generateBoard() {
             feld.textContent = i;
         } else if (ereignisFelder.includes(i)) {
             feld.classList.add('ereignis-feld');
-            feld.innerHTML = `? <span class="feld-nummer">${i}</span>`;
+            feld.textContent = '?';
         } else {
             feld.textContent = i;
         }
@@ -52,9 +52,8 @@ async function fetchScoresAndPopulateDropdown() {
         console.log("Daten erfolgreich abgerufen:", scoreData);
 
         // Fülle das Dropdown-Menü, aber nur einmal
-        if (scoreData && !kuerzelPopulated) {
+        if (scoreData) {
             populateKuerzelDropdown(Object.keys(scoreData));
-            kuerzelPopulated = true; // Setze Merker
         }
 
     } catch (error) {
@@ -125,15 +124,101 @@ function showPlayerPosition() {
 }
 
 // Event Listener hinzufügen, wenn das HTML geladen ist
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() { // Mache diese Funktion async
     generateBoard(); // Spielbrett beim Laden generieren
-    fetchScoresAndPopulateDropdown(); // Scores holen und Dropdown füllen
 
-    // Event Listener für den Button
-    const button = document.getElementById('show-position-btn');
-    button.addEventListener('click', showPlayerPosition); 
+    // Scores holen und warten, bis sie da sind und Dropdown gefüllt ist
+    await fetchScoresAndPopulateDropdown(); 
 
-    // Optional: Auch auf Änderung im Dropdown reagieren?
-    // const selectElement = document.getElementById('kuerzel-select');
-    // selectElement.addEventListener('change', showPlayerPosition);
-});
+    // --- NEU: URL Parameter auslesen ---
+    const urlParams = new URLSearchParams(window.location.search);
+    const playerKuerzelFromUrl = urlParams.get('player');
+
+    if (playerKuerzelFromUrl && scoreData && scoreData[playerKuerzelFromUrl] !== undefined) {
+         const selectElement = document.getElementById('kuerzel-select');
+         selectElement.value = playerKuerzelFromUrl; // Kürzel im Dropdown auswählen
+         showPlayerPosition(); // Position direkt anzeigen
+         console.log(`Kürzel ${playerKuerzelFromUrl} aus URL Parameter ausgewählt.`);
+    }
+    // --- Ende URL Parameter auslesen ---
+
+    // --- NEU: Event Listener für das Dropdown-Menü (Select) hinzufügen ---
+const selectElement = document.getElementById('kuerzel-select');
+if (selectElement) {
+    // Rufe showPlayerPosition auf, wenn sich die Auswahl ändert
+    selectElement.addEventListener('change', showPlayerPosition); 
+}
+
+// --- Listener für den Refresh-Button ---
+const refreshButton = document.getElementById('refresh-data-btn');
+if (refreshButton) {
+    refreshButton.addEventListener('click', async () => { // Async Funktion für await
+        console.log("Aktualisiere Daten...");
+        refreshButton.textContent = "Lade..."; // Feedback für User
+        refreshButton.disabled = true;
+
+        // NEU: Merke dir das aktuell ausgewählte Kürzel *vor* dem Refresh
+        const selectElement = document.getElementById('kuerzel-select');
+        const previouslySelectedKuerzel = selectElement.value; 
+
+        // Daten neu holen & Dropdown aktualisieren
+        await fetchScoresAndPopulateDropdown(); 
+
+        // NEU: Versuche, das vorherige Kürzel wieder auszuwählen
+        if (previouslySelectedKuerzel && selectElement.querySelector(`option[value="${previouslySelectedKuerzel}"]`)) {
+            // Prüft, ob das Kürzel nach dem Refresh noch existiert
+             selectElement.value = previouslySelectedKuerzel; 
+             console.log(`Kürzel ${previouslySelectedKuerzel} nach Refresh wieder ausgewählt.`);
+        } else {
+             console.log("Vorheriges Kürzel nach Refresh nicht mehr vorhanden oder keins ausgewählt.");
+             // Optional: Hier könnte man die alte Hervorhebung entfernen, falls gewünscht
+             // const alleFelder = document.querySelectorAll('.spielbrett-feld');
+             // alleFelder.forEach(f => f.classList.remove('active-player'));
+        }
+
+        // Anzeige für das (jetzt hoffentlich wieder) ausgewählte Kürzel aktualisieren
+        // Diese Funktion liest den dann aktuellen Wert aus dem Select aus
+        showPlayerPosition(); 
+
+        refreshButton.textContent = "Daten aktualisieren"; // Text zurücksetzen
+        refreshButton.disabled = false;
+        console.log("Daten aktualisiert.");
+    });
+}
+// --- Ende des neuen Listeners für den Refresh-Button ---
+
+    // --- NEU: Event Listener für den "Link kopieren"-Button ---
+    const copyButton = document.getElementById('copy-link-btn');
+    if(copyButton) { // Prüfen ob Button existiert
+        copyButton.addEventListener('click', function() {
+            const selectElement = document.getElementById('kuerzel-select');
+            const selectedKuerzel = selectElement.value;
+
+            if (!selectedKuerzel) {
+                alert("Bitte wähle zuerst dein Kürzel aus, um einen Link zu kopieren.");
+                return;
+            }
+
+            // Basis-URL ohne Parameter oder Hash
+            const baseUrl = window.location.origin + window.location.pathname; 
+            const personalUrl = `${baseUrl}?player=${selectedKuerzel}`;
+
+            // In die Zwischenablage kopieren (moderne Methode)
+            navigator.clipboard.writeText(personalUrl).then(function() {
+                console.log('Link erfolgreich kopiert:', personalUrl);
+                // Feedback für den User
+                copyButton.textContent = 'Kopiert!'; 
+                copyButton.disabled = true; // Button kurz deaktivieren
+                setTimeout(() => {
+                   copyButton.textContent = 'Persönlichen Link kopieren'; 
+                   copyButton.disabled = false;
+                }, 2000); // Nach 2 Sekunden zurücksetzen
+            }).catch(function(err) {
+                console.error('Fehler beim Kopieren des Links: ', err);
+                alert('Konnte den Link leider nicht kopieren.');
+            });
+        });
+    }
+    // --- Ende Event Listener für "Link kopieren"-Button ---
+
+}); // Ende von DOMContentLoaded
