@@ -94,17 +94,15 @@ div > select, div > button {
     /* Spielbrett-Container anpassen */
     #spielbrett-container {
         display: grid; 
-        /* NEU: Flexible Spalten, die sich den Platz teilen */
-        grid-template-columns: repeat(6, 1fr); 
-        gap: 3px; 
-        /* NEU: Volle Breite nutzen, statt max-width und margin:auto */
+        /* NEU: Passe Spaltenanzahl automatisch an, Felder mind. 50px breit */
+        grid-template-columns: repeat(auto-fit, minmax(50px, 1fr)); 
+        gap: 1.5vmin; 
         width: 100%; 
-        box-sizing: border-box; /* Wichtig bei width: 100% + padding/border */
-        margin: 15px 0; /* Nur noch oben/unten Abstand, kein auto mehr */
-        padding: 3px; 
+        box-sizing: border-box; 
+        margin: 15px 0; 
+        padding: 1.5vmin; 
         background-color: #ccc; 
         border: 1px solid #999; 
-        /* max-width und margin: auto entfernt */
     }
 
       /* Allgemeine Feldgröße anpassen */

@@ -79,40 +79,43 @@ function populateKuerzelDropdown(kuerzelListe) {
     console.log("Dropdown mit Kürzeln gefüllt.");
 }
 
-// Funktion zum Anzeigen der Position des Spielers
+// Funktion zum Anzeigen der Position des Spielers (KORRIGIERTE VERSION)
 function showPlayerPosition() {
+    // SCHRITT 1: Aktuellen Wert aus dem Dropdown holen
+    const selectElement = document.getElementById('kuerzel-select');
+    const selectedKuerzel = selectElement.value; 
+
+    // SCHRITT 2: Alte Highlights immer entfernen, bevor wir weitermachen
+    const alleFelder = document.querySelectorAll('.spielbrett-feld');
+    alleFelder.forEach(f => f.classList.remove('active-player')); 
+
+    // SCHRITT 3: Prüfen, ob "--Bitte wählen--" ausgewählt ist (Wert ist dann "")
+    if (!selectedKuerzel) { 
+        console.log("Auswahl zurückgesetzt, kein Highlight gesetzt.");
+        return; // Funktion hier beenden (kein Alert, kein Highlight)
+    }
+
+    // SCHRITT 4: Prüfen, ob die Daten überhaupt schon geladen wurden
     if (!scoreData) {
-        alert("Punktestände noch nicht geladen. Bitte warten oder erneut versuchen.");
-        // Optional: Hier fetchScoresAndPopulateDropdown() erneut aufrufen?
+        // Dieser Alert ist okay, falls Daten fehlen
+        alert("Punktestände noch nicht geladen. Bitte warten oder aktualisieren."); 
         return; 
     }
 
-    const selectElement = document.getElementById('kuerzel-select');
-    const selectedKuerzel = selectElement.value;
-
-    if (!selectedKuerzel) {
-        alert("Bitte wähle zuerst dein Kürzel aus.");
-        return;
-    }
-
+    // SCHRITT 5: Score holen und Feld finden (nur wenn ein Kürzel gewählt ist)
     const score = scoreData[selectedKuerzel];
     console.log(`Position für ${selectedKuerzel} gesucht. Score: ${score}`);
 
-    // Alle bisherigen Hervorhebungen entfernen
-    const alleFelder = document.querySelectorAll('.spielbrett-feld');
-    alleFelder.forEach(f => f.classList.remove('active-player'));
-
-    // Das richtige Feld finden und hervorheben
     let targetFieldId;
     if (typeof score === 'number' && score >= 1 && score <= 100) {
         targetFieldId = score;
     } else {
-        // Wenn Score 0, negativ oder ungültig ist -> Startfeld
-        targetFieldId = 'start'; 
+        targetFieldId = 'start'; // Bei 0, negativ, ungültig -> Startfeld
     }
 
     const targetField = document.querySelector(`.spielbrett-feld[data-field-id="${targetFieldId}"]`);
 
+    // SCHRITT 6: Neues Highlight setzen
     if (targetField) {
         targetField.classList.add('active-player');
         console.log(`Feld ${targetFieldId} für ${selectedKuerzel} hervorgehoben.`);
@@ -121,7 +124,7 @@ function showPlayerPosition() {
     } else {
         console.warn(`Konnte Feld mit ID ${targetFieldId} nicht finden.`);
     }
-}
+} // Ende showPlayerPosition (Korrigierte Version)
 
 // Event Listener hinzufügen, wenn das HTML geladen ist
 document.addEventListener('DOMContentLoaded', async function() { // Mache diese Funktion async
