@@ -16,8 +16,6 @@ Diese Webanwendung dient zur interaktiven Visualisierung des Fortschritts im Rah
 - 🔗 Möglichkeit einen Direktlink zu einem Kürzel zu erstellen.
 - 📱 Responsive Design.
 
-![Vorschau der Spielbrett-Webseite](vorschau.png)
-
 ## Technologie-Stack
 
 - **Design-Entwurf:** Figma
