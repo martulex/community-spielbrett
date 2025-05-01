@@ -9,12 +9,12 @@ Diese Webanwendung dient zur interaktiven Visualisierung des Fortschritts im Rah
 ## Features
 
 - 🎲 Darstellung eines Spielbretts mit 100 nummerierten Feldern, einem Startfeld und einem Zielfeld. 
-- Visuelle Hervorhebung spezieller "Ereignisfelder".
-- Dynamisches Laden der Punktestände für alle Teilnehmer (identifiziert durch Kürzel) aus einer Google Tabelle über ein Google Apps Script.
-- Dropdown-Menü zur Auswahl des eigenen Kürzels.
-- Hervorhebung des Feldes auf dem Spielbrett, das dem Punktestand des ausgewählten Teilnehmers entspricht.
-- Möglichkeit einen Direktlink zu einem Kürzel zu erstellen.
-- Responsive Design.
+- ❓ Visuelle Hervorhebung spezieller "Ereignisfelder".
+- 🔄 Dynamisches Laden der Punktestände für alle Teilnehmer (identifiziert durch Kürzel) aus einer Google Tabelle über ein Google Apps Script.
+- ⬇️ Dropdown-Menü zur Auswahl des eigenen Kürzels.
+- 💯 Hervorhebung des Feldes auf dem Spielbrett, das dem Punktestand des ausgewählten Teilnehmers entspricht.
+- 🔗 Möglichkeit einen Direktlink zu einem Kürzel zu erstellen.
+- 📱 Responsive Design.
 
 ## Technologie-Stack
 
