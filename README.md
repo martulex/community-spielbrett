@@ -6,8 +6,6 @@
 
 Diese Webanwendung dient zur interaktiven Visualisierung des Fortschritts im Rahmen des Moduls "Communityprojekt". Sie stellt ein virtuelles Spielbrett dar, auf dem die Teilnehmerinnen und Teilnehmer ihren aktuellen Punktestand einsehen können. Die Daten werden dynamisch aus einer zentralen Google Tabelle geladen und ermöglichen so eine stets aktuelle Übersicht für die gesamte Gruppe.
 
-![Vorschau der Spielbrett-Webseite](vorschau.png)
-
 ## Features
 
 - 🎲 Darstellung eines Spielbretts mit 100 nummerierten Feldern, einem Startfeld und einem Zielfeld. 
@@ -17,6 +15,8 @@ Diese Webanwendung dient zur interaktiven Visualisierung des Fortschritts im Rah
 - 💯 Hervorhebung des Feldes auf dem Spielbrett, das dem Punktestand des ausgewählten Teilnehmers entspricht.
 - 🔗 Möglichkeit einen Direktlink zu einem Kürzel zu erstellen.
 - 📱 Responsive Design.
+
+![Vorschau der Spielbrett-Webseite](vorschau.png)
 
 ## Technologie-Stack
 
