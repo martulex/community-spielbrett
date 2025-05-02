@@ -2,6 +2,12 @@
 
 [**>> Zur Live-Demo <<**](https://martulex.github.io/community-spielbrett/) 
 
+## Update (02.05.25)
+- 🔍 Möglichkeit alle Positionen anzuzeigen und das ausgewählte Kürzel mit den anderen zu vergleichen.
+- 👀 Visuelles Feedback / Klickbare Felder hinzugefügt.
+- ❌ Anzeige kann jetzt zurückgesetzt / gelöscht werden.
+- 🖇️ "Persönlicher Link" - Button wird erst bei Auswahl des Kürzels angezeigt.
+
 ## Projektbeschreibung
 
 Diese Webanwendung dient zur interaktiven Visualisierung des Fortschritts im Rahmen des Moduls "Communityprojekt". Sie stellt ein virtuelles Spielbrett dar, auf dem die Teilnehmerinnen und Teilnehmer ihren aktuellen Punktestand einsehen können. Die Daten werden dynamisch aus einer zentralen Google Tabelle geladen und ermöglichen so eine stets aktuelle Übersicht für die gesamte Gruppe.
