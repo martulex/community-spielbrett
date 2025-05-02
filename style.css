@@ -1,4 +1,4 @@
-/* Grundlegende Styles für die ganze Seite (optional, aber gut) */
+/* Grundlegende Styles für die ganze Seite  */
 body {
     font-family: sans-serif; /* Eine einfache Schriftart */
     padding: 20px; /* Etwas Abstand zum Fensterrand */
@@ -7,6 +7,11 @@ body {
 
 h1 {
     text-align: center; /* Überschrift zentrieren */
+}
+
+/* Hilfsklasse zum Ausblenden von Elementen */
+.hidden {
+    display: none !important; /* Versteckt das Element */
 }
 
 /* Container für das Spielbrett - WICHTIG für das Raster-Layout */
@@ -48,18 +53,15 @@ h1 {
 /* Spezielles Styling für Ereignis-Felder */
 .ereignis-feld {
     border: 2px solid blue; /* Blauer Rand bleibt */
-    font-size: 15px;       /* Etwas größere Schrift für das "?", kannst du anpassen */
-    /* flex-direction und line-height entfernt */
-    /* Die Zentrierung übernimmt display:flex von .spielbrett-feld */
+    font-size: 15px;       /* Etwas größere Schrift für das "?" */
 }
 
 /* Spezielles Styling für das Ziel-Feld (100) */
 .ziel-feld {
     border: 2px solid red; /* Dickerer, roter Rand */
-    /* Erbt jetzt automatisch Größe, Ausrichtung etc. von .spielbrett-feld */
 }
 
-/* Styling für den Auswahlbereich (optional) */
+/* Styling für den Auswahlbereich */
 div > label {
     margin-right: 5px;
 }
@@ -72,8 +74,37 @@ div > select, div > button {
 .active-player {
     background-color: yellow !important; /* Wichtige Hervorhebungsfarbe */
     transform: scale(1.05); /* Feld leicht vergrößern */
-    box-shadow: 0 0 10px yellow; /* Leuchteffekt (optional) */
+    box-shadow: 0 0 4px yellow; /* Leuchteffekt (optional) */
     transition: transform 0.2s ease-in-out; /* Sanfter Übergang */
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+
+}
+
+/* NEU: Styling für Felder mit anderen Spielern (oder bei "Alle anzeigen") */
+.other-player {
+    background-color: #d0e0ff; /* Beispiel: Helles Blau/Lila */
+    cursor: pointer; 
+    transition: transform 0.2s ease-in-out; 
+    position: relative; 
+    /* Optional: Ein leichter Rand oder Effekt? */
+    /* border: 1px solid blue; */
+}
+
+/* NEU: Hover-Effekt für den aktuell ausgewählten Spieler */
+.active-player:hover {
+    transform: scale(1.1); /* Etwas größer als die normalen 1.05 */
+    /* Optional: Stärkerer Schatten beim Hover? */
+    /* box-shadow: 0 0 12px yellow; */
+}
+
+/* NEU: Hover-Effekt für Felder anderer Spieler */
+.other-player:hover {
+    transform: scale(1.05); /* Auf die gleiche Größe wie der aktive Spieler normal skaliert */
+    z-index: 2; /* Sicherstellen, dass das gehoverte Feld über anderen liegt */
+    /* Optional: Leichter Schatten beim Hover? */
+    /* box-shadow: 0 0 8px rgba(150, 150, 200, 0.4); */
 }
 
 /* ============================ */
@@ -107,9 +138,6 @@ div > select, div > button {
 
       /* Allgemeine Feldgröße anpassen */
       .spielbrett-feld {
-        /* NEU: Breite ergibt sich aus flexibler Spalte (1fr) */
-        /* width: 35px; entfernt */ 
-        /* NEU: Höhe soll sich an Breite anpassen -> Quadrat */
         height: auto; 
         aspect-ratio: 1 / 1; /* Sorgt für quadratische Felder */
 
@@ -121,7 +149,7 @@ div > select, div > button {
         align-items: center;
         justify-content: center;
 
-        font-size: 15px; /* Ggf. anpassen, da Feldgröße jetzt variabel ist */
+        font-size: 15px;
         font-weight: bold;
         text-align: center; 
         line-height: 1; 
@@ -149,7 +177,7 @@ div > select, div > button {
     }
 
     /* Steuerungselemente (Dropdown, Button) untereinander anordnen */
-    .controls-container { /* Wir brauchen diese Klasse im HTML! */
+    .controls-container {
         display: flex;
         flex-direction: column; /* Elemente untereinander */
         align-items: flex-start; /* Links ausrichten */
