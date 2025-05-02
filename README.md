@@ -8,6 +8,8 @@
 - ❌ Anzeige kann jetzt zurückgesetzt / gelöscht werden.
 - 🖇️ "Persönlicher Link" - Button wird erst bei Auswahl des Kürzels angezeigt.
 
+  Hinweis: Aktuell funktioniert nur die Desktop Version einwandfrei, Mobile Probleme und fehlende Features werden im nächsten Update behoben.
+
 ## Projektbeschreibung
 
 Diese Webanwendung dient zur interaktiven Visualisierung des Fortschritts im Rahmen des Moduls "Communityprojekt". Sie stellt ein virtuelles Spielbrett dar, auf dem die Teilnehmerinnen und Teilnehmer ihren aktuellen Punktestand einsehen können. Die Daten werden dynamisch aus einer zentralen Google Tabelle geladen und ermöglichen so eine stets aktuelle Übersicht für die gesamte Gruppe.
