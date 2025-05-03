@@ -264,21 +264,22 @@ async function fetchScoresAndPopulateDropdown() {
     }
 }
 
-// Funktion zum Füllen des Dropdown-Menüs
+// Funktion zum Füllen des Dropdown-Menüs 
 function populateKuerzelDropdown(kuerzelListe) {
     const selectElement = document.getElementById('kuerzel-select');
-    const currentVal = selectElement.value; // Aktuellen Wert merken 
+    const currentVal = selectElement.value; // Merken, was gerade ausgewählt ist
 
-    if (selectElement.options.length > 0 && selectElement.options[0].textContent.includes('Lädt Daten')) {
-         selectElement.options[0].textContent = '-- Bitte wählen --'; // Text zurücksetzen
-         selectElement.options[0].value = ''; // Wert zurücksetzen
-    } else {
-        // Fallback: Alle Optionen löschen und "--Bitte wählen--" neu hinzufügen
-        selectElement.innerHTML = '<option value="">-- Bitte wählen --</option>';
+    // --- NEUE, ZUVERLÄSSIGE Logik zum Leeren ---
+    // Entferne alle Optionen ab der zweiten (Index 1), behalte die erste (Index 0)
+    while (selectElement.options.length > 1) {
+        selectElement.remove(1); // Entfernt immer die Option an Index 1 (die nachfolgenden rutschen nach)
     }
+    // Setze Text/Wert der ersten Option zurück (ist entweder "-- Lädt..." oder "-- Bitte wählen --")
+    selectElement.options[0].textContent = '-- Bitte wählen --';
+    selectElement.options[0].value = '';
+    // -------------------------------------------
 
-
-    // Kürzel sortieren (mit oder ohne localeCompare)
+    // Kürzel sortieren
     kuerzelListe.sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
 
     // Die eigentlichen Kürzel-Optionen hinzufügen
@@ -289,11 +290,15 @@ function populateKuerzelDropdown(kuerzelListe) {
         selectElement.appendChild(option);
     });
 
-    // Vorherige Auswahl wiederherstellen 
+    // Vorherige Auswahl wiederherstellen, falls das Kürzel noch existiert
     if (selectElement.querySelector(`option[value="${currentVal}"]`)) {
          selectElement.value = currentVal;
+    } else {
+         // Wenn der alte Wert nicht mehr da ist (z.B. Kürzel gelöscht), auf Default zurücksetzen
+         selectElement.value = "";
     }
-    console.log("Dropdown mit Kürzeln gefüllt.");
+    console.log("Dropdown mit Kürzeln gefüllt (Refresh-sicher).");
+    // Das Aktivieren (selectElement.disabled = false;) passiert ja in fetchScoresAndPopulateDropdown
 }
 
 
