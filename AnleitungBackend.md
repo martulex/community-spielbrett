@@ -4,8 +4,8 @@
 
 * Erstelle eine neue Google Tabelle.
 * Benenne das erste Tabellenblatt (den Reiter unten) **exakt** `Spieldaten` (Groß-/Kleinschreibung beachten!).
-* In Spalte A (ab Zeile 2): Trage die eindeutigen Kürzel der Teilnehmer ein (Überschrift in A1 z.B. "Kuerzel").
-* In Spalte B (ab Zeile 2): Trage die zugehörigen Punktestände ein (Überschrift in B1 z.B. "Score"). **Wichtig:** Formatiere diese Spalte als **Zahl**.
+* In Spalte A (ab Zeile 2): Trage die eindeutigen Kürzel der Teilnehmer ein (Überschrift in A1: "Kuerzel").
+* In Spalte B (ab Zeile 2): Trage die zugehörigen Punktestände ein (Überschrift in B1: "Score"). **Wichtig:** Formatiere diese Spalte als **Zahl**.
 
 **2. Google Apps Script erstellen und bereitstellen:**
 
@@ -26,4 +26,3 @@
 * Öffne die Datei `script.js` des Frontend-Codes.
 * Finde die Zeile `const G_SHEET_URL = "...";` am Anfang der Datei.
 * Füge die **kopierte Web-App-URL** in die Anführungszeichen ein bzw. ersetze den bestehenden Link.
-* *(Hinweis: Diese URL ist spezifisch für deine Bereitstellung.)
