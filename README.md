@@ -2,6 +2,10 @@
 
 [**>> Zur Live-Demo <<**](https://martulex.github.io/community-spielbrett/) 
 
+## Update (03.05.25)
+- 🔧 Mobile fix.
+- 📌 Bei Auswahl des Kürzels in mobile wird nun direkt zum jeweiligen Feld gescrollt.
+
 ## Update (02.05.25)
 - 🔍 Möglichkeit alle Positionen anzuzeigen und das ausgewählte Kürzel mit den anderen zu vergleichen.
 - 👀 Visuelles Feedback / Klickbare Felder hinzugefügt.
