@@ -220,6 +220,13 @@ function updatePlayerList(data) {
 
 // Funktion zum Abrufen der Scores, Vorverarbeiten und Füllen des Dropdowns
 async function fetchScoresAndPopulateDropdown() {
+    const selectElement = document.getElementById('kuerzel-select');
+    const initialOption = selectElement.options[0]; // Die "-- Lädt Daten..." Option merken
+
+    // Sicherstellen, dass es deaktiviert ist und "Lädt..." anzeigt
+    selectElement.disabled = true;
+    initialOption.textContent = '-- Lädt Daten... --';
+
     console.log("Versuche Scores abzurufen von:", G_SHEET_URL);
     try {
         const response = await fetch(G_SHEET_URL);
@@ -231,13 +238,18 @@ async function fetchScoresAndPopulateDropdown() {
 
         // Daten vorverarbeiten
         preprocessScoreData(scoreData);
-
-      
-        updatePlayerList(scoreData);
-
+        updatePlayerList(scoreData); // Liste aktualisieren
 
         if (scoreData) {
+            // Dropdown füllen (diese Funktion wird unten angepasst)
             populateKuerzelDropdown(Object.keys(scoreData));
+            // Nach erfolgreichem Füllen: Dropdown aktivieren
+            selectElement.disabled = false; // HIER aktivieren
+            console.log("Dropdown aktiviert.");
+        } else {
+             // Fall: Keine Daten zurückbekommen, aber kein Fehler?
+             initialOption.textContent = '-- Keine Daten --';
+             selectElement.disabled = true; // Bleibt deaktiviert
         }
 
     } catch (error) {
@@ -245,25 +257,39 @@ async function fetchScoresAndPopulateDropdown() {
         const listElement = document.getElementById('player-list');
         if(listElement) listElement.innerHTML = '<li>Fehler beim Laden!</li>';
         alert("Fehler beim Laden der Punktestände. Bitte prüfe die URL und die Freigabe des Apps Scripts.");
+
+        // Wichtig: Fehler im Dropdown anzeigen und deaktiviert lassen
+        initialOption.textContent = '-- Fehler! --';
+        selectElement.disabled = true;
     }
 }
 
 // Funktion zum Füllen des Dropdown-Menüs
 function populateKuerzelDropdown(kuerzelListe) {
     const selectElement = document.getElementById('kuerzel-select');
-    // Merke dir das aktuell ausgewählte Kürzel, falls vorhanden
-    const currentVal = selectElement.value;
-    selectElement.length = 1; // Behält nur "--Bitte wählen--"
+    const currentVal = selectElement.value; // Aktuellen Wert merken 
 
-    kuerzelListe.sort();
+    if (selectElement.options.length > 0 && selectElement.options[0].textContent.includes('Lädt Daten')) {
+         selectElement.options[0].textContent = '-- Bitte wählen --'; // Text zurücksetzen
+         selectElement.options[0].value = ''; // Wert zurücksetzen
+    } else {
+        // Fallback: Alle Optionen löschen und "--Bitte wählen--" neu hinzufügen
+        selectElement.innerHTML = '<option value="">-- Bitte wählen --</option>';
+    }
 
+
+    // Kürzel sortieren (mit oder ohne localeCompare)
+    kuerzelListe.sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+
+    // Die eigentlichen Kürzel-Optionen hinzufügen
     kuerzelListe.forEach(kuerzel => {
         const option = document.createElement('option');
         option.value = kuerzel;
         option.textContent = kuerzel;
         selectElement.appendChild(option);
     });
-    // Versuche, die vorherige Auswahl wiederherzustellen
+
+    // Vorherige Auswahl wiederherstellen 
     if (selectElement.querySelector(`option[value="${currentVal}"]`)) {
          selectElement.value = currentVal;
     }
