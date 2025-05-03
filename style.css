@@ -84,7 +84,7 @@ div > select, div > button {
 
 /* NEU: Styling für Felder mit anderen Spielern (oder bei "Alle anzeigen") */
 .other-player {
-    background-color: #d0e0ff; /* Beispiel: Helles Blau/Lila */
+    background-color: #d0e0ff !important; /* Beispiel: Helles Blau/Lila */
     cursor: pointer; 
     transition: transform 0.2s ease-in-out; 
     position: relative; 

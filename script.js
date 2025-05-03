@@ -69,47 +69,87 @@ function updateCopyLinkButtonVisibility() {
     }
 }
 
-// Funktion zum Anzeigen ALLER ANDEREN Spielerpositionen ZUSÄTZLICH zur Auswahl
 function showAllPositions() {
-    // Die globale Variable 'currentSelectedKuerzel' enthält das aktuell ausgewählte Kürzel
-    console.log(`Zeige alle Positionen an. Aktuell ausgewählt: ${currentSelectedKuerzel}`);
-    const alleFelder = document.querySelectorAll('.spielbrett-feld');
+    try {
+        console.log("--- showAllPositions START ---");
+        console.log(`Aktuell ausgewähltes Kürzel: ${currentSelectedKuerzel}`); 
 
-    // 1. Nur die '.other-player' Highlights entfernen 
-    //    Lasse eine eventuell vorhandene '.active-player' Markierung bestehen
-    alleFelder.forEach(f => {
-        f.classList.remove('other-player'); // Nur 'other-player' entfernen
-        f.title = '';                     // Alle alten Tooltips entfernen
-    });
-
-    // 2. Dropdown NICHT zurücksetzen. Die aktuelle Auswahl im Dropdown bleibt bestehen.
-
-    // 3. Neue '.other-player' Markierungen für alle Felder setzen
-    if (!fieldToPlayersMap || Object.keys(fieldToPlayersMap).length === 0) {
-        console.log("Keine Daten zum Anzeigen aller Positionen vorhanden.");
-        return;
-    }
-
-    for (const fieldId in fieldToPlayersMap) {
-        const playersOnField = fieldToPlayersMap[fieldId];
-        const targetField = document.querySelector(`.spielbrett-feld[data-field-id="${fieldId}"]`);
-
-        if (targetField && playersOnField.length > 0) {
-            // Tooltip immer für alle besetzten Felder setzen 
-
-            // Prüfen, ob das Feld bereits die 'active-player' Klasse hat
-            const isActive = targetField.classList.contains('active-player');
-
-            // Die 'other-player' Klasse nur hinzufügen, wenn das Feld NICHT der aktive Spieler ist.
-            if (!isActive) {
-                 targetField.classList.add('other-player'); 
-            }
-            // Wenn das Feld 'active-player' ist, bleibt es einfach so (gelb).
+        const alleFelder = document.querySelectorAll('.spielbrett-feld');
+        if (!alleFelder || alleFelder.length === 0) {
+             console.error("FEHLER: Keine '.spielbrett-feld' Elemente gefunden!");
+             return;
         }
-    }
-    updateCopyLinkButtonVisibility();
-    console.log("Alle anderen Positionen zusätzlich markiert.");
-} // Ende der NEUEN showAllPositions Funktion
+        console.log(`Gefundene Felder insgesamt: ${alleFelder.length}`);
+
+        // 1. Klassen und Titel zurücksetzen
+        let otherPlayerClassesRemoved = 0;
+        alleFelder.forEach(f => {
+            if (f.classList.contains('other-player')) {
+                 f.classList.remove('other-player');
+                 otherPlayerClassesRemoved++;
+            }
+            f.title = '';
+        });
+        console.log(`${otherPlayerClassesRemoved} '.other-player' Klassen entfernt.`);
+
+        // 2. Daten prüfen
+        if (!fieldToPlayersMap) {
+            console.error("FEHLER: fieldToPlayersMap ist nicht definiert!");
+            return;
+        }
+         if (Object.keys(fieldToPlayersMap).length === 0) {
+            console.warn("WARNUNG: fieldToPlayersMap ist leer. Keine Positionen zum Anzeigen.");
+            console.log("--- showAllPositions END (keine Daten) ---");
+            return;
+        }
+        console.log("fieldToPlayersMap Daten:", JSON.parse(JSON.stringify(fieldToPlayersMap))); // Zeigt die Daten an 
+
+        // 3. Felder markieren
+        let fieldsProcessed = 0;
+        let otherPlayerClassesAdded = 0;
+        let activePlayerFieldsSkipped = 0;
+
+        for (const fieldId in fieldToPlayersMap) {
+            fieldsProcessed++;
+            const playersOnField = fieldToPlayersMap[fieldId];
+            const targetField = document.querySelector(`.spielbrett-feld[data-field-id="${fieldId}"]`);
+
+            if (targetField && playersOnField && playersOnField.length > 0) {
+                targetField.title = `Spieler: ${playersOnField.join(', ')}`; // Eindeutiger Tooltip
+
+                const isActive = targetField.classList.contains('active-player');
+
+                if (!isActive) {
+                    targetField.classList.add('other-player');
+                    otherPlayerClassesAdded++;
+                    // console.log(`   -> '.other-player' zu Feld ${fieldId} hinzugefügt.`); 
+                } else {
+                    activePlayerFieldsSkipped++;
+                     // console.log(`   -> Feld ${fieldId} ist '.active-player', '.other-player' übersprungen.`); 
+                }
+            } else if (!targetField) {
+                 console.warn(`WARNUNG: Kein DOM-Element für Feld-ID '${fieldId}' gefunden.`);
+            }
+        }
+
+        console.log(`Verarbeitete Felder aus Map: ${fieldsProcessed}`);
+        console.log(`'.other-player' Klassen hinzugefügt: ${otherPlayerClassesAdded}`);
+        console.log(`Felder als '.active-player' übersprungen: ${activePlayerFieldsSkipped}`);
+
+        // 4. Button Sichtbarkeit aktualisieren
+        if (typeof updateCopyLinkButtonVisibility === 'function') {
+            updateCopyLinkButtonVisibility();
+            console.log("updateCopyLinkButtonVisibility aufgerufen.");
+        } else {
+            // console.log("updateCopyLinkButtonVisibility nicht als Funktion gefunden."); 
+        }
+
+        console.log("--- showAllPositions END ---");
+
+     } catch (error) {
+         console.error("FEHLER in showAllPositions:", error);
+     }
+}
 
 // Funktion zum Anzeigen der Position eines EINZELNEN Spielers
 function showSinglePlayerPosition(selectedKuerzel) {
@@ -135,14 +175,17 @@ function showSinglePlayerPosition(selectedKuerzel) {
     let targetFieldId = (typeof score === 'number' && score >= 1 && score <= 100) ? score : 'start';
     const targetField = document.querySelector(`.spielbrett-feld[data-field-id="${targetFieldId}"]`);
 
-    // 4. Neues Highlight und Tooltip setzen
+    // 4. Neues Highlight setzen und SCROLLEN
     if (targetField) {
-        targetField.classList.add('active-player'); // Nur der ausgewählte wird 'active'
-
-        // Finde alle Spieler auf diesem Feld für den Tooltip
-        
-        const playersOnThisField = fieldToPlayersMap[targetFieldId.toString()] || [];
+        targetField.classList.add('active-player');
         console.log(`Feld ${targetFieldId} für ${selectedKuerzel} hervorgehoben.`);
+
+        targetField.scrollIntoView({
+            behavior: 'smooth', // Sanftes Scrollen
+            block: 'center',    // Vertikal zentrieren (oder 'start', 'end', 'nearest')
+            inline: 'nearest'   // Horizontal nur wenn nötig
+        });
+
     } else {
         console.warn(`Konnte Feld mit ID ${targetFieldId} nicht finden.`);
     }
