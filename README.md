@@ -5,6 +5,7 @@
 ## Update (03.05.25)
 - 🔧 Mobile fix.
 - 📌 Bei Auswahl des Kürzels in mobile wird nun direkt zum jeweiligen Feld gescrollt.
+- 🔄 Ladeanzeige im Dropdown hinzugefügt, das Dropdown ist nun erst nutzbar wenn es auch die Daten des Sheets abgerufen hat.
 
 ## Update (02.05.25)
 - 🔍 Möglichkeit alle Positionen anzuzeigen und das ausgewählte Kürzel mit den anderen zu vergleichen.
