@@ -11,8 +11,11 @@
 
 ## Update (02.05.25)
 - 🔍 Möglichkeit alle Positionen anzuzeigen und das ausgewählte Kürzel mit den anderen zu vergleichen.
+  
 - 👀 Visuelles Feedback / Klickbare Felder hinzugefügt.
+  
 - ❌ Anzeige kann jetzt zurückgesetzt / gelöscht werden.
+  
 - 🖇️ "Persönlicher Link" - Button wird erst bei Auswahl des Kürzels angezeigt.
 
 ## Projektbeschreibung
