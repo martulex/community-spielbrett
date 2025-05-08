@@ -3,17 +3,10 @@ body {
     font-family: sans-serif; /* Eine einfache Schriftart */
     padding: 20px; /* Etwas Abstand zum Fensterrand */
     background-color: #f4f4f4; /* Ein heller Hintergrund */
-    line-height: 1.6; /* Bessere Lesbarkeit */
 }
 
 h1 {
     text-align: center; /* Überschrift zentrieren */
-    color: #333;
-}
-
-h2 {
-    color: #555;
-    margin-top: 0;
 }
 
 /* Hilfsklasse zum Ausblenden von Elementen */
@@ -24,14 +17,13 @@ h2 {
 /* Container für das Spielbrett - WICHTIG für das Raster-Layout */
 #spielbrett-container {
     display: grid; /* Aktiviert das CSS Grid Layout */
-    /* Die Spalten werden in der Media Query für größere Screens definiert */
+    grid-template-columns: repeat(11, 60px); /* 11 Spalten, jede 60px breit */
     gap: 5px; /* 5px Abstand zwischen den Feldern */
     max-width: calc(11 * 60px + 10 * 5px); /* Max. Breite berechnen (11 Felder + 10 Lücken) */
     margin: 20px auto; /* Oben/unten 20px Abstand, links/rechts automatisch zentriert */
     padding: 5px; /* Kleiner Innenabstand für den Container selbst */
     background-color: #ccc; /* Leichter grauer Hintergrund für den Container */
     border: 1px solid #999; /* Rand für den Container */
-    border-radius: 8px; /* Abgerundete Ecken */
 }
 
 /* Allgemeines Styling für JEDES Feld */
@@ -41,7 +33,6 @@ h2 {
     background-color: white; /* Weißer Hintergrund */
     border: 1px solid black; /* Standardmäßig schwarzer Rand */
     box-sizing: border-box; /* Sorgt dafür, dass Rand zur Größe zählt */
-    border-radius: 4px; /* Leicht abgerundete Ecken für Felder */
 
     /* Inhalt zentrieren (horizontal und vertikal) */
     display: flex;
@@ -52,213 +43,73 @@ h2 {
     font-size: 14px;
     font-weight: bold;
     text-align: center; /* Zusätzliche Textzentrierung */
-    color: #333;
 }
 
 /* Spezielles Styling für das Start-Feld */
 .start-feld {
     border: 2px solid red; /* Dickerer, roter Rand */
-    color: red;
 }
 
 /* Spezielles Styling für Ereignis-Felder */
 .ereignis-feld {
-    border: 2px solid blue; /* Blauer Rand */
-    font-size: 18px;       /* Etwas größere Schrift für das "?" */
-    color: blue;
+    border: 2px solid blue; /* Blauer Rand bleibt */
+    font-size: 15px;       /* Etwas größere Schrift für das "?" */
 }
 
 /* Spezielles Styling für das Ziel-Feld (100) */
 .ziel-feld {
-    border: 2px solid green; /* Dickerer, grüner Rand */
-    color: green;
-    font-size: 16px;
+    border: 2px solid red; /* Dickerer, roter Rand */
 }
 
-/* Styling für den Auswahlbereich und Buttons */
-.controls-container {
-    display: flex;
-    flex-wrap: wrap; /* Umbruch auf kleinen Screens */
-    align-items: center;
-    justify-content: center; /* Zentrieren auf größeren Screens */
-    gap: 10px; /* Abstand zwischen Elementen */
-    margin-bottom: 20px;
-    padding: 10px;
-    background-color: #eee;
-    border-radius: 8px;
+/* Styling für den Auswahlbereich */
+div > label {
+    margin-right: 5px;
 }
-
-.controls-container label {
-    font-weight: bold;
-}
-
-.controls-container select,
-.controls-container input[type="text"],
-.controls-container input[type="password"],
-.controls-container button {
-    padding: 10px 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-}
-
-.controls-container button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    transition: background-color 0.2s ease;
-}
-
-.controls-container button:hover {
-    background-color: #0056b3;
-}
-
-button#logout-btn {
-    background-color: #dc3545; /* Rote Farbe für Logout */
-}
-button#logout-btn:hover {
-    background-color: #c82333;
+div > select, div > button {
+    padding: 5px;
+    margin-right: 10px;
 }
 
 /* Styling für das Feld des aktiven Spielers */
 .active-player {
     background-color: yellow !important; /* Wichtige Hervorhebungsfarbe */
     transform: scale(1.05); /* Feld leicht vergrößern */
-    box-shadow: 0 0 8px rgba(255, 255, 0, 0.6); /* Leuchteffekt */
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Sanfter Übergang */
-    position: relative;
-    z-index: 2; /* Sicherstellen, dass es über anderen liegt */
-    cursor: pointer;
-}
-
-/* Styling für Felder mit anderen Spielern (oder bei "Alle anzeigen") */
-.other-player {
-    background-color: #d0e0ff !important; /* Helles Blau/Lila */
-    border-color: blue;
-    cursor: pointer;
-    transition: transform 0.2s ease-in-out;
+    box-shadow: 0 0 4px yellow; /* Leuchteffekt (optional) */
+    transition: transform 0.2s ease-in-out; /* Sanfter Übergang */
     position: relative;
     z-index: 1;
-}
-
-/* NEU: Styles für Login-Container */
-#login-container {
-    border: 1px solid #ccc;
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 400px; /* Oder eine passende Breite */
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    text-align: center;
-}
- #login-container h2 {
-    margin-top: 0;
- }
- #login-container input, #login-container button {
-    display: block; /* Elemente untereinander */
-    width: calc(100% - 22px); /* Breite minus Padding/Border */
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box; /* Padding/Border zur Größe zählen */
-    font-size: 1rem;
-}
-#login-container button {
-    background-color: #007bff;
-    color: white;
-    border: none;
     cursor: pointer;
-    font-size: 1rem;
-}
-#login-container button:hover {
-    background-color: #0056b3;
-}
-#login-message {
-    min-height: 1.2em; /* Platz für Fehlermeldung reservieren */
+
 }
 
-
-/* NEU: Styles für den Scanner-Container */
-#scanner-container {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin: 20px auto;
-    max-width: 500px; /* Oder eine passende Breite */
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    text-align: center;
+/* NEU: Styling für Felder mit anderen Spielern (oder bei "Alle anzeigen") */
+.other-player {
+    background-color: #d0e0ff !important; /* Beispiel: Helles Blau/Lila */
+    cursor: pointer; 
+    transition: transform 0.2s ease-in-out; 
+    position: relative; 
+    /* Optional: Ein leichter Rand oder Effekt? */
+    /* border: 1px solid blue; */
 }
-#scanner-container video {
-    border: 1px solid black;
-    width: 100%;
-    height: auto; /* Höhe automatisch anpassen */
-    display: block; /* Entfernt zusätzlichen Platz unter dem Video */
-    margin-bottom: 10px;
+
+/* NEU: Hover-Effekt für den aktuell ausgewählten Spieler */
+.active-player:hover {
+    transform: scale(1.1); /* Etwas größer als die normalen 1.05 */
+    /* Optional: Stärkerer Schatten beim Hover? */
+    /* box-shadow: 0 0 12px yellow; */
 }
- #scanner-container button {
-     margin-top: 0; /* Abstand wird durch gap im Container geregelt */
-     padding: 10px 20px;
-     font-size: 1rem;
-     cursor: pointer;
- }
- #scan-result {
-     min-height: 1.2em; /* Platz für Meldung reservieren */
-     margin-bottom: 10px;
- }
 
-
-/* NEU: Styles für Benachrichtigungen */
-#notification {
-     position: fixed;
-     bottom: 20px;
-     left: 50%;
-     transform: translateX(-50%);
-     background-color: rgba(0, 128, 0, 0.8); /* Standard grün */
-     color: white;
-     padding: 10px 20px;
-     border-radius: 5px;
-     display: none; /* Standardmäßig versteckt */
-     z-index: 1000; /* Sicherstellen, dass es über allem liegt */
-     text-align: center;
-     opacity: 0; /* Start für Fade-In */
-     transition: opacity 0.5s ease-in-out; /* Sanfter Übergang */
-     min-width: 200px; /* Mindestbreite */
-     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+/* NEU: Hover-Effekt für Felder anderer Spieler */
+.other-player:hover {
+    transform: scale(1.05); /* Auf die gleiche Größe wie der aktive Spieler normal skaliert */
+    z-index: 2; /* Sicherstellen, dass das gehoverte Feld über anderen liegt */
+    /* Optional: Leichter Schatten beim Hover? */
+    /* box-shadow: 0 0 8px rgba(150, 150, 200, 0.4); */
 }
- #notification.visible {
-    opacity: 1; /* Sichtbar machen */
-    display: block; /* Wichtig, damit Transition funktioniert */
- }
-
 
 /* ============================ */
 /* Responsive Design Anpassungen*/
 /* ============================ */
-
-/* Styles für größere Bildschirme (Desktop) */
-@media (min-width: 769px) {
-     #spielbrett-container {
-         grid-template-columns: repeat(11, 60px); /* 11 Spalten, jede 60px breit */
-     }
-      .controls-container {
-          justify-content: center; /* Zentrieren auf großen Screens */
-      }
-       .controls-container select,
-       .controls-container input[type="text"],
-       .controls-container input[type="password"],
-       .controls-container button {
-           width: auto; /* Breite automatisch anpassen */
-           margin-right: 10px; /* Abstand zwischen Elementen */
-       }
-        #login-container, #scanner-container {
-            width: auto; /* Breite automatisch anpassen */
-        }
-}
-
 
 /* Styles für Bildschirme, die 768px breit oder schmaler sind */
 @media (max-width: 768px) {
@@ -273,28 +124,26 @@ button#logout-btn:hover {
 
     /* Spielbrett-Container anpassen */
     #spielbrett-container {
-        display: grid;
+        display: grid; 
         /* NEU: Passe Spaltenanzahl automatisch an, Felder mind. 50px breit */
-        grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
-        gap: 1.5vmin; /* Abstand relativ zur Viewport-Größe */
-        width: 100%;
-        box-sizing: border-box;
-        margin: 15px 0;
-        padding: 1.5vmin;
-        background-color: #ccc;
-        border: 1px solid #999;
-        border-radius: 8px;
+        grid-template-columns: repeat(auto-fit, minmax(50px, 1fr)); 
+        gap: 1.5vmin; 
+        width: 100%; 
+        box-sizing: border-box; 
+        margin: 15px 0; 
+        padding: 1.5vmin; 
+        background-color: #ccc; 
+        border: 1px solid #999; 
     }
 
       /* Allgemeine Feldgröße anpassen */
       .spielbrett-feld {
-        height: auto;
+        height: auto; 
         aspect-ratio: 1 / 1; /* Sorgt für quadratische Felder */
 
-        background-color: white;
-        border: 1px solid black;
-        box-sizing: border-box;
-        border-radius: 4px;
+        background-color: white; 
+        border: 1px solid black; 
+        box-sizing: border-box; 
 
         display: flex;
         align-items: center;
@@ -302,16 +151,14 @@ button#logout-btn:hover {
 
         font-size: 15px;
         font-weight: bold;
-        text-align: center;
-        line-height: 1;
-        color: #333;
+        text-align: center; 
+        line-height: 1; 
     }
 
     /* Spezielles Styling für das Start-Feld */
     .start-feld {
     border: 2px solid red;
-    font-size: 15px;
-    color: red;
+    font-size: 15px; /* Dickerer, roter Rand */
 }
 
     /* Ereignisfeld-Inhalt anpassen */
@@ -319,57 +166,34 @@ button#logout-btn:hover {
         border: 2px solid blue;
         font-size: 15px; /* Kleineres Fragezeichen */
         line-height: 1;
-        color: blue;
     }
 
     /* Ziel-Feld (100) Schriftgröße anpassen */
+    /* Es erbt die Größe von .spielbrett-feld, nur Schrift muss angepasst werden */
     .ziel-feld {
-         border: 2px solid green;
+         border: 2px solid red;
          font-size: 15px; /* Kleinere Schrift für die 100 */
-         color: green;
+         /* Roter Rand bleibt von der vorherigen Regel erhalten */
     }
 
     /* Steuerungselemente (Dropdown, Button) untereinander anordnen */
     .controls-container {
+        display: flex;
         flex-direction: column; /* Elemente untereinander */
         align-items: flex-start; /* Links ausrichten */
         gap: 8px; /* Kleiner Abstand zwischen Label, Select, Button */
-        width: 100%; /* Volle Breite */
-        box-sizing: border-box;
-        padding: 10px; /* Innenabstand */
     }
 
     .controls-container label {
          margin-bottom: -2px; /* Ggf. Abstand anpassen */
     }
 
-    .controls-container select,
-    .controls-container input[type="text"],
-    .controls-container input[type="password"],
+    .controls-container select, 
     .controls-container button {
-        width: 100%; /* Volle Breite nutzen */
-        max-width: none; /* Keine maximale Breite */
+        width: 90%; /* Volle Breite nutzen (fast) */
+        max-width: 300px; /* Aber nicht zu breit auf Tablets */
         margin-right: 0; /* Rechten Abstand aufheben */
-        padding: 10px; /* Etwas mehr Klickfläche */
-        box-sizing: border-box;
+        padding: 8px; /* Etwas mehr Klickfläche */
     }
-
-    /* Login und Scanner Container auf volle Breite */
-     #login-container, #scanner-container {
-         max-width: 100%;
-         margin-left: 0;
-         margin-right: 0;
-         padding: 15px;
-         border-radius: 0; /* Keine runden Ecken am Rand */
-         box-shadow: none; /* Kein Schatten am Rand */
-     }
-
-     /* Benachrichtigung am unteren Rand */
-     #notification {
-          bottom: 10px; /* Etwas höher am Rand */
-          width: calc(100% - 20px); /* Breite minus Padding */
-          left: 10px;
-          transform: translateX(0); /* Keine Zentrierung nötig */
-     }
 
 } /* Ende der Media Query für max-width: 768px */
