@@ -4,50 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Communityprojekt Spielbrett</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    <link rel="stylesheet" href="style.css"> 
 </head>
 <body>
 
     <h1>Communityprojekt Spielbrett</h1>
 
-    <div id="login-container" class="controls-container hidden">
-        <h2>Login</h2>
-        <label for="login-kuerzel">Kürzel:</label>
-        <input type="text" id="login-kuerzel" placeholder="Dein Kürzel">
-        <label for="login-pin">PIN:</label>
-        <input type="password" id="login-pin" placeholder="Deine PIN">
-        <button id="login-btn">Login</button>
-        <p id="login-message" style="color: red;"></p>
-    </div>
-
-    <div id="game-controls" class="controls-container hidden">
+    <div class="controls-container">
         <label for="kuerzel-select">Wähle dein Kürzel:</label>
         <select name="kuerzel" id="kuerzel-select" disabled> <option value="">-- Lädt Daten... --</option> </select>
         <button id="refresh-data-btn">Daten aktualisieren</button>
         <button id="copy-link-btn" class="hidden">Persönlichen Link kopieren</button>
         <button id="show-all-btn">Alle Positionen anzeigen</button>
-        <button id="clear-board-btn">Anzeige löschen</button>
+        <button id="clear-board-btn">Anzeige löschen</button> </div>
 
-        <button id="start-scan-btn">Figur bewegen (QR-Code scannen)</button>
-         <button id="logout-btn">Logout</button> </div>
-
-    <hr>
-
-    <div id="scanner-container" class="hidden">
-        <h2>Scanne den QR-Code des Feldes</h2>
-        <video id="camera-feed" width="100%" height="auto" autoplay playsinline></video>
-        <div id="scan-result"></div>
-        <button id="stop-scan-btn">Scan abbrechen</button>
-    </div>
-
+    <hr> 
 
     <div id="spielbrett-container">
         </div>
 
-    <div id="notification" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: rgba(0, 128, 0, 0.8); color: white; padding: 10px 20px; border-radius: 5px; display: none; z-index: 1000; text-align: center;"></div>
-
-
-    <script src="script.js"></script>
+    <script src="script.js"></script> 
 </body>
 </html>
