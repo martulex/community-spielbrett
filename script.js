@@ -1,4 +1,4 @@
-const G_SHEET_URL = "https://script.google.com/macros/s/AKfycbwkWyLfarTRFy3xldW07bWSYRqh-cPJcnMRtQWpO_NqbaLKzRo-cK-8iunz1dL8dVA5BQ/exec"; // <-- URL
+const G_SHEET_URL = "https://script.google.com/macros/s/AKfycbzhjxmVhIiM4keUvR32HeP2ozi8ILqVqFFi-ETAt9Fkb1j_BS9kBXiF-fa5zw6mmAsx-A/exec"; // <-- URL
 
 // Globale Variablen
 let scoreData = null;
